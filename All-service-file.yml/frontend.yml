@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: frontend
+spec: 
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: frontend 
+  template: 
+    metadata:
+      labels: 
+        app: frontend
+    spec:
+      containers: 
+        - name: frontend-container
+          image: 451947743144.dkr.ecr.us-east-1.amazonaws.com/frontend@sha256:c65c41b4bbce344df010f59dc8ab27737bbf0193dfcaaf0b77bc6a8cdba9178d
+          ports:
+            - name: http
+              containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: frontend-service         # ingress inside give this name as service name 
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+  selector: 
+    app: frontend
